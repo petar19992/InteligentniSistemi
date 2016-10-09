@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <map>
+    <node id="1" name=" Park Svetog Save Kruzni tok">
+        <x>10</x>
+        <y>10</y>
+    </node>
+    <node id="2" name="Park Svetog Save raskrsnica">
+        <x>40</x>
+        <y>10</y>
+    </node>
+    <node id="3" name="Bulevar Nemanjica Garaza Niš Expressa">
+        <x>10</x>
+        <y>50</y>
+    </node>
+    <node id="4" name="Bulevar Nemanjica Dom Zdravlja">
+        <x>50</x>
+        <y>40</y>
+    </node>
+    <node id="5" name="Foka-Top Form">
+        <x>50</x>
+        <y>50</y>
+    </node>
+    <node id="6" name="Narodno pozoriste">
+        <x>60</x>
+        <y>60</y>
+    </node>
+    <node id="7" name="Crveni Pevac">
+        <x>80</x>
+        <y>30</y>
+    </node>
+    <node id="8" name="Carica">
+        <x>30</x>
+        <y>80</y>
+    </node>
+    <node id="9" name="Trosarina">
+        <x>80</x>
+        <y>80</y>
+    </node>
+    <node id="10" name="Stop Shop">
+        <x>10</x>
+        <y>90</y>
+    </node>
+    <node id="11" name="Dis">
+        <x>10</x>
+        <y>10</y>
+    </node>
+    <node id="12" name="Mika Antić – Lion 1">
+        <x>40</x>
+        <y>10</y>
+    </node>
+    <node id="13" name="Trg Kralja Aleksandra ">
+        <x>10</x>
+        <y>50</y>
+    </node>
+    <node id="14" name="Batabane">
+        <x>50</x>
+        <y>40</y>
+    </node>
+    <node id="15" name="Eltim">
+        <x>50</x>
+        <y>50</y>
+    </node>
+    <node id="16" name="Stara Srbija">
+        <x>60</x>
+        <y>60</y>
+    </node>
+    <node id="17" name="Image">
+        <x>80</x>
+        <y>30</y>
+    </node>
+    <node id="18" name="Alan Ford">
+        <x>30</x>
+        <y>80</y>
+    </node>
+    <node id="19" name=" Auto Pijaca">
+        <x>80</x>
+        <y>80</y>
+    </node>
+    <node id="20" name="Merkator">
+        <x>10</x>
+        <y>90</y>
+    </node>
+    <edge>
+        <node1>1</node1>
+        <node2>2</node2>
+    </edge>
+    </map>
