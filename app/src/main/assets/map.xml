@@ -1,87 +1,164 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <map>
     <node id="1" name=" Park Svetog Save Kruzni tok">
-        <x>10</x>
-        <y>10</y>
+        <x>60</x>
+        <y>70</y>
+        <connections>
+            <nodeId>2</nodeId>
+            <nodeId>3</nodeId>
+        </connections>
     </node>
     <node id="2" name="Park Svetog Save raskrsnica">
-        <x>40</x>
-        <y>10</y>
-    </node>
-    <node id="3" name="Bulevar Nemanjica Garaza Niš Expressa">
-        <x>10</x>
+        <x>50</x>
         <y>50</y>
+        <connections>
+            <nodeId>3</nodeId>
+            <nodeId>1</nodeId>
+        </connections>
+    </node>
+    <node id="3" name="Bulevar Nemanjica Garaza Nis Expressa">
+        <x>50</x>
+        <y>40</y>
+        <connections>
+            <nodeId>4</nodeId>
+            <nodeId>2</nodeId>
+        </connections>
     </node>
     <node id="4" name="Bulevar Nemanjica Dom Zdravlja">
         <x>50</x>
-        <y>40</y>
+        <y>30</y>
+        <connections>
+            <nodeId>5</nodeId>
+            <nodeId>3</nodeId>
+        </connections>
     </node>
     <node id="5" name="Foka-Top Form">
-        <x>50</x>
-        <y>50</y>
+        <x>30</x>
+        <y>30</y>
+        <connections>
+            <nodeId>6</nodeId>
+            <nodeId>4</nodeId>
+        </connections>
     </node>
     <node id="6" name="Narodno pozoriste">
-        <x>60</x>
-        <y>60</y>
+        <x>20</x>
+        <y>30</y>
+        <connections>
+            <nodeId>7</nodeId>
+            <nodeId>5</nodeId>
+        </connections>
     </node>
     <node id="7" name="Crveni Pevac">
-        <x>80</x>
-        <y>30</y>
+        <x>20</x>
+        <y>40</y>
+        <connections>
+            <nodeId>8</nodeId>
+            <nodeId>6</nodeId>
+        </connections>
     </node>
     <node id="8" name="Carica">
-        <x>30</x>
-        <y>80</y>
+        <x>20</x>
+        <y>60</y>
+        <connections>
+            <nodeId>9</nodeId>
+            <nodeId>7</nodeId>
+        </connections>
     </node>
     <node id="9" name="Trosarina">
-        <x>80</x>
-        <y>80</y>
+        <x>30</x>
+        <y>90</y>
+        <connections>
+            <nodeId>10</nodeId>
+            <nodeId>8</nodeId>
+        </connections>
     </node>
     <node id="10" name="Stop Shop">
-        <x>10</x>
-        <y>90</y>
+        <x>40</x>
+        <y>95</y>
+        <connections>
+            <nodeId>11</nodeId>
+            <nodeId>9</nodeId>
+        </connections>
     </node>
     <node id="11" name="Dis">
-        <x>10</x>
-        <y>10</y>
+        <x>60</x>
+        <y>96</y>
+        <connections>
+            <nodeId>12</nodeId>
+            <nodeId>10</nodeId>
+        </connections>
     </node>
-    <node id="12" name="Mika Antić – Lion 1">
-        <x>40</x>
-        <y>10</y>
+    <node id="12" name="Mika Antic – Lion 1">
+        <x>90</x>
+        <y>99</y>
+        <connections>
+            <nodeId>19</nodeId>
+            <nodeId>11</nodeId>
+        </connections>
     </node>
     <node id="13" name="Trg Kralja Aleksandra ">
-        <x>10</x>
-        <y>50</y>
+        <x>50</x>
+        <y>10</y>
+        <connections>
+            <nodeId>14</nodeId>
+            <nodeId>18</nodeId>
+        </connections>
     </node>
     <node id="14" name="Batabane">
-        <x>50</x>
-        <y>40</y>
+        <x>40</x>
+        <y>10</y>
+        <connections>
+            <nodeId>15</nodeId>
+            <nodeId>13</nodeId>
+        </connections>
     </node>
     <node id="15" name="Eltim">
-        <x>50</x>
-        <y>50</y>
+        <x>30</x>
+        <y>5</y>
+        <connections>
+            <nodeId>16</nodeId>
+            <nodeId>13</nodeId>
+        </connections>
     </node>
     <node id="16" name="Stara Srbija">
-        <x>60</x>
-        <y>60</y>
+        <x>20</x>
+        <y>10</y>
+        <connections>
+            <nodeId>17</nodeId>
+            <nodeId>15</nodeId>
+        </connections>
     </node>
     <node id="17" name="Image">
-        <x>80</x>
-        <y>30</y>
+        <x>20</x>
+        <y>20</y>
+        <connections>
+            <nodeId>18</nodeId>
+            <nodeId>16</nodeId>
+        </connections>
     </node>
     <node id="18" name="Alan Ford">
-        <x>30</x>
-        <y>80</y>
+        <x>40</x>
+        <y>20</y>
+        <connections>
+            <nodeId>13</nodeId>
+            <nodeId>17</nodeId>
+        </connections>
     </node>
     <node id="19" name=" Auto Pijaca">
         <x>80</x>
-        <y>80</y>
+        <y>30</y>
+        <connections>
+            <nodeId>13</nodeId>
+            <nodeId>5</nodeId>
+        </connections>
     </node>
     <node id="20" name="Merkator">
-        <x>10</x>
-        <y>90</y>
+        <x>70</x>
+        <y>80</y>
+        <connections>
+            <nodeId>1</nodeId>
+            <nodeId>11</nodeId>
+        </connections>
     </node>
-    <edge>
-        <node1>1</node1>
-        <node2>2</node2>
-    </edge>
+
     </map>
