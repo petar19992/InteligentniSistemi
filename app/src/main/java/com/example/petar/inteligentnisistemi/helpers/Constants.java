@@ -3,6 +3,8 @@ package com.example.petar.inteligentnisistemi.helpers;
 import android.app.DownloadManager;
 import android.os.AsyncTask;
 
+import com.example.petar.inteligentnisistemi.models.Map;
+
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -26,9 +28,10 @@ public class Constants {
             instance=new Constants();
         return instance;
     }
+    public Map map;
     private Constants()
     {
-
+        map=new Map();
     }
 
 
