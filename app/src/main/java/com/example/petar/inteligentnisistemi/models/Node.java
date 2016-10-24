@@ -18,7 +18,7 @@ public class Node {
     public float Y;
 
     public ArrayList<Edge> edges;
-    public ArrayList<Integer> tmpEdges;
+    public ArrayList<Integer> tmpEdges; //Pomocna
 
     public Node()
     {

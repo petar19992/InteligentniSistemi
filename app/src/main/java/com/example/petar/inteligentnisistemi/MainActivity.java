@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.example.petar.inteligentnisistemi.customComponents.DrawableView;
 import com.example.petar.inteligentnisistemi.helpers.Constants;
@@ -43,6 +44,9 @@ DrawableView drawableView;
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        /*((ProgressBar)findViewById(R.id.progressBar)).setMax(100);
+        ((ProgressBar)findViewById(R.id.progressBar)).setProgress(50);*/
     }
 
     boolean firstInit=true;
