@@ -1,5 +1,8 @@
 package com.example.petar.inteligentnisistemi.models;
 
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 
 /**
@@ -21,5 +24,10 @@ public class Node {
     {
         edges=new ArrayList<>();
         tmpEdges=new ArrayList<>();
+    }
+
+    public void draw(Canvas canvas)
+    {
+
     }
 }

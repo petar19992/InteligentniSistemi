@@ -9,7 +9,7 @@
         </connections>
     </node>
     <node id="2" name="Park Svetog Save raskrsnica">
-        <x>50</x>
+        <x>40</x>
         <y>50</y>
         <connections>
             <nodeId>3</nodeId>
@@ -90,7 +90,7 @@
     </node>
     <node id="12" name="Mika Antic – Lion 1">
         <x>90</x>
-        <y>99</y>
+        <y>85</y>
         <connections>
             <nodeId>19</nodeId>
             <nodeId>11</nodeId>
@@ -105,8 +105,8 @@
         </connections>
     </node>
     <node id="14" name="Batabane">
-        <x>40</x>
-        <y>10</y>
+        <x>30</x>
+        <y>15</y>
         <connections>
             <nodeId>15</nodeId>
             <nodeId>13</nodeId>
