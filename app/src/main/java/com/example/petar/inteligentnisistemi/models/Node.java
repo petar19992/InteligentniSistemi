@@ -1,78 +1,90 @@
 package com.example.petar.inteligentnisistemi.models;
 
-import java.util.Map;
+import java.io.Serializable;
+import java.util.List;
 
-import java.util.HashMap;
-import java.util.Map;
 
-public class Node
-{
 
-    private Integer id;
-    private String name;
-    private Integer xCoordinate;
-    private Integer yCoordinate;
-    private NodeType nodeType;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+public class Node implements Serializable{
 
-    public Integer getId()
-    {
-        return id;
-    }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -796884698615643293L;
 
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
+	
 
-    public String getName()
-    {
-        return name;
-    }
+	long id;
+	String name;
+	Integer xCoordinate;
+	Integer yCoordinate;
+	NodeType nodeType;
+//	@OneToOne
+//	Integer nodeTypeID;
+//	Node connectedNode1;
+//	Node connectedNode2;)
+//	@ManyToMany(targetEntity=Node.class)
+	List<ConnectedNode> connected;
+//	List<Node> connected;
+//	@ManyToMany(targetEntity=Node.class)
+//	List<Integer> connected;
+	
+	
+	public Node() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Node(long id) {
+		super();
+		this.id = id;
+	}
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Integer getxCoordinate() {
+		return xCoordinate;
+	}
+	public void setxCoordinate(Integer xCoordinate) {
+		this.xCoordinate = xCoordinate;
+	}
+	public Integer getyCoordinate() {
+		return yCoordinate;
+	}
+	public void setyCoordinate(Integer yCoordinate) {
+		this.yCoordinate = yCoordinate;
+	}
+	public List<ConnectedNode> getConnected() {
+		return connected;
+	}
+	public void setConnected(List<ConnectedNode> connected) {
+		this.connected = connected;
+	}
+	public NodeType getNodeType() {
+		return nodeType;
+	}
+	public void setNodeType(NodeType nodeType) {
+		this.nodeType = nodeType;
+	}
 
-    public Integer getXCoordinate()
-    {
-        return xCoordinate;
-    }
-
-    public void setXCoordinate(Integer xCoordinate)
-    {
-        this.xCoordinate = xCoordinate;
-    }
-
-    public Integer getYCoordinate()
-    {
-        return yCoordinate;
-    }
-
-    public void setYCoordinate(Integer yCoordinate)
-    {
-        this.yCoordinate = yCoordinate;
-    }
-
-    public NodeType getNodeType()
-    {
-        return nodeType;
-    }
-
-    public void setNodeType(NodeType nodeType)
-    {
-        this.nodeType = nodeType;
-    }
-
-    public Map<String, Object> getAdditionalProperties()
-    {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value)
-    {
-        this.additionalProperties.put(name, value);
-    }
-
+	@Override
+	public String toString() {
+		return "Node{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", xCoordinate=" + xCoordinate +
+				", yCoordinate=" + yCoordinate +
+				", nodeType=" + nodeType +
+				", connected=" + connected +
+				'}';
+	}
 }

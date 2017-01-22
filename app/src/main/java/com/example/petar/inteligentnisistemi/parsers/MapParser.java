@@ -65,7 +65,7 @@ public class MapParser
 
     public void startTag(XmlPullParser xpp) throws IOException, XmlPullParserException
     {
-        String name = xpp.getName();
+        /*String name = xpp.getName();
         if (name.equals("node"))
         {
             tmpNode = new com.example.petar.inteligentnisistemi.models.Node();
@@ -92,7 +92,7 @@ public class MapParser
             {
                 tmpNode.tmpEdges.add(Integer.parseInt(xpp.getText()));
             }
-        }
+        }*/
     }
 
     public void endTag(XmlPullParser xpp)

@@ -71,7 +71,7 @@ public class DrawableView extends RelativeLayout
         preview.eraseColor(Color.WHITE);
         traffic=BitmapFactory.decodeResource(getResources(), R.drawable.ic_traffic_black_24dp);
         Canvas canvas = new Canvas(preview);
-        for (Node node : Constants.getInstance().map.nodes)
+        /*for (Node node : Constants.getInstance().map.nodes)
         {
             for(Edge edge:node.edges)
             {
@@ -106,7 +106,7 @@ public class DrawableView extends RelativeLayout
             imageView.setLayoutParams(nodeParams);
             imageView.setImageResource(R.drawable.ic_traffic_black_24dp);
             addView(imageView);
-        }
+        }*/
 //        invalidate();
     }
 
