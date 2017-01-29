@@ -65,34 +65,34 @@ public class MapParser
 
     public void startTag(XmlPullParser xpp) throws IOException, XmlPullParserException
     {
-        /*String name = xpp.getName();
+        String name = xpp.getName();
         if (name.equals("node"))
         {
             tmpNode = new com.example.petar.inteligentnisistemi.models.Node();
-            tmpNode.id = Integer.valueOf(xpp.getAttributeValue(0));
-            tmpNode.name = xpp.getAttributeValue(1);
+            tmpNode.setId(Integer.valueOf(xpp.getAttributeValue(0)));
+            tmpNode.setName(xpp.getAttributeValue(1));
         } else if (name.equals("x"))
         {
             xpp.next();
-            if (tmpNode != null)
+            /*if (tmpNode != null)
             {
-                tmpNode.X = Float.parseFloat(xpp.getText());
-            }
+                tmpNode.setxCoordinate((int) (Float.parseFloat(xpp.getText())));
+            }*/
         }else if (name.equals("y"))
         {
             xpp.next();
-            if (tmpNode != null)
+            /*if (tmpNode != null)
             {
-                tmpNode.Y = Float.parseFloat(xpp.getText());
-            }
+                tmpNode.setyCoordinate((int) Float.parseFloat(xpp.getText()));
+            }*/
         }else if (name.equals("nodeId"))
         {
             xpp.next();
             if (tmpNode != null)
             {
-                tmpNode.tmpEdges.add(Integer.parseInt(xpp.getText()));
+//                tmpNode.tmpEdges.add(Integer.parseInt(xpp.getText()));
             }
-        }*/
+        }
     }
 
     public void endTag(XmlPullParser xpp)

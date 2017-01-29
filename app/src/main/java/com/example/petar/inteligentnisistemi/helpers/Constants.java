@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.os.AsyncTask;
 
 import com.example.petar.inteligentnisistemi.models.Map;
+import com.example.petar.inteligentnisistemi.models.Node;
 
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 /**
@@ -21,6 +23,10 @@ import java.net.URL;
 
 public class Constants {
 
+    /************************************/
+    public Map map;
+    /************************************/
+
     private static Constants instance;
     public static Constants getInstance()
     {
@@ -28,7 +34,6 @@ public class Constants {
             instance=new Constants();
         return instance;
     }
-    public Map map;
     private Constants()
     {
         map=new Map();

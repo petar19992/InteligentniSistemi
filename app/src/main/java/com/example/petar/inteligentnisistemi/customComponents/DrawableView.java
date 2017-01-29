@@ -5,23 +5,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.example.petar.inteligentnisistemi.R;
+import com.example.petar.inteligentnisistemi.UIApplication;
 import com.example.petar.inteligentnisistemi.helpers.Constants;
-import com.example.petar.inteligentnisistemi.models.Edge;
+import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
-
-import static android.R.attr.x;
-import static android.R.attr.y;
 
 /**
  * Created by petar on 9.10.16..
@@ -30,6 +24,7 @@ import static android.R.attr.y;
 public class DrawableView extends RelativeLayout
 {
     Paint yellowPaint;
+
     public DrawableView(Context context)
     {
         super(context);
@@ -53,9 +48,12 @@ public class DrawableView extends RelativeLayout
 
     private void setPaintAndParams()
     {
-        yellowPaint =new Paint();
-        yellowPaint.setColor(Color.YELLOW);
+        yellowPaint = new Paint();
+        yellowPaint.setColor(getResources().getColor(R.color.roadColor));
         yellowPaint.setStrokeWidth(10);
+        traffic = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_traffic_black_24dp), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
+        car = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_car_black_24dp), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
+        roundabout = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.roundabout), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
 
 
     }
@@ -63,65 +61,105 @@ public class DrawableView extends RelativeLayout
     Paint paint = new Paint();
     Bitmap preview;
     Bitmap traffic;
+    Bitmap car;
+    Bitmap roundabout;
     RelativeLayout.LayoutParams progressBarParams;
     RelativeLayout.LayoutParams nodeParams;
+
     public void drawMap()
     {
         preview = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_4444);
         preview.eraseColor(Color.WHITE);
-        traffic=BitmapFactory.decodeResource(getResources(), R.drawable.ic_traffic_black_24dp);
-        Canvas canvas = new Canvas(preview);
-        /*for (Node node : Constants.getInstance().map.nodes)
-        {
-            for(Edge edge:node.edges)
-            {
-                int startX= (int) (edge.from.X/100*getWidth())+traffic.getWidth()/2;
-                int endX= (int) (edge.to.X/100*getWidth())+traffic.getWidth()/2;
-                int startY= (int) (edge.from.Y/100*getHeight())+traffic.getHeight()/2;
-                int endY= (int) (edge.to.Y/100*getHeight())+traffic.getHeight()/2;
-                int distance= (int) getDistance(startX,startY,endX,endY);
-                progressBarParams=new LayoutParams(distance, 20);
-                ProgressBar progressBar=new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
-                progressBar.setLayoutParams(progressBarParams);
-                progressBar.setPivotX(0f);
-                progressBar.setX(startX);
-                progressBar.setY(startY);
-                progressBar.setRotation((float) calcRotationAngleInDegrees(startX,startY,endX,endY)-90);
-                progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_drawable));
 
-                addView(progressBar);
-//                canvas.drawLine(startX,startY,endX,endY, yellowPaint);
+        Canvas canvas = new Canvas(preview);
+        for (Node node : Constants.getInstance().map.nodes)
+        {
+            for (Node n : node.connectedNodes)
+            {
+                if (node.getLongitude() != null && n.getLatitude() != null)
+                {
+                    int startX = (int) (Float.valueOf(node.getLongitude()) / 100 * getWidth()) + traffic.getWidth() / 2;
+                    int endX = (int) (Float.valueOf(n.getLongitude()) / 100 * getWidth()) + traffic.getWidth() / 2;
+                    int startY = (int) (Float.valueOf(node.getLatitude()) / 100 * getHeight()) + traffic.getHeight() / 2;
+                    int endY = (int) (Float.valueOf(n.getLatitude()) / 100 * getHeight()) + traffic.getHeight() / 2;
+                    int distance = (int) getDistance(startX, startY, endX, endY);
+                    canvas.drawLine(startX, startY, endX, endY, yellowPaint);
+                    /*progressBarParams = new LayoutParams(distance, 20);
+                    ProgressBar progressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
+                    progressBar.setLayoutParams(progressBarParams);
+                    progressBar.setPivotX(0f);
+                    progressBar.setX(startX);
+                    progressBar.setY(startY);
+                    progressBar.setRotation((float) calcRotationAngleInDegrees(startX, startY, endX, endY) - 90);
+                    progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_drawable));
+
+                    addView(progressBar);*/
+                }
+
             }
         }
         for (Node node : Constants.getInstance().map.nodes)
         {
-            int x = (int) (node.X/100 * getWidth());
-            int y = (int) (node.Y/100 * getHeight());
-//            canvas.drawBitmap(traffic, x, y, new Paint());
-
-            ImageView imageView=new ImageView(getContext());
-            imageView.setX(x);
-            imageView.setY(y);
-            nodeParams=new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            imageView.setLayoutParams(nodeParams);
-            imageView.setImageResource(R.drawable.ic_traffic_black_24dp);
-            addView(imageView);
-        }*/
-//        invalidate();
+            if (node.getLongitude() != null && node.getLatitude() != null)
+            {
+                int x = (int) (Float.valueOf(node.getLongitude()) / 100 * getWidth());
+                int y = (int) (Float.valueOf(node.getLatitude()) / 100 * getHeight());
+                if (node.getNodeType().getName().equals("Intersection"))
+                {
+                    canvas.drawBitmap(traffic, x, y, new Paint());
+                } else
+                {
+                    canvas.drawBitmap(roundabout, x, y, new Paint());
+                }
+               /* ImageView imageView = new ImageView(getContext());
+                imageView.setX(x);
+                imageView.setY(y);
+                nodeParams = new LayoutParams(UIApplication.WIDTH / 13, UIApplication.WIDTH / 13);
+                imageView.setLayoutParams(nodeParams);
+                if (node.getNodeType().getName().equals("Intersection"))
+                    imageView.setImageResource(R.drawable.ic_traffic_black_24dp);
+                else
+                    imageView.setImageResource(R.drawable.roundabout);
+                addView(imageView);*/
+            }
+        }
+        setBackground(new BitmapDrawable(preview));
+        invalidate();
     }
 
-    public float getDistance(int x1,int y1,int x2,int y2)
+
+    public void drawCars()
     {
-        return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+        removeAllViews();
+        for (Car currCar : Constants.getInstance().map.cars)
+        {
+            ImageView carOnMap;
+
+            carOnMap = new ImageView(getContext());
+            int x = (int) ((Float.valueOf(currCar.getPositionNode1().getLongitude()) + Float.valueOf(currCar.getPositionNode2().getLongitude())) / 2 / 100 * getWidth());
+            int y = (int) ((Float.valueOf(currCar.getPositionNode1().getLatitude()) + Float.valueOf(currCar.getPositionNode2().getLatitude())) / 2 / 100 * getHeight());
+            carOnMap.setX(x);
+            carOnMap.setY(y);
+            carOnMap.setImageBitmap(car);
+            addView(carOnMap);
+
+        }
     }
-    public static double calcRotationAngleInDegrees(int x1,int y1,int x2,int y2)
+
+    public float getDistance(int x1, int y1, int x2, int y2)
+    {
+        return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+
+    public static double calcRotationAngleInDegrees(int x1, int y1, int x2, int y2)
     {
         double theta = Math.atan2(y2 - y1, x2 - x1);
-        theta += Math.PI/2.0;
+        theta += Math.PI / 2.0;
 
         double angle = Math.toDegrees(theta);
 
-        if (angle < 0) {
+        if (angle < 0)
+        {
             angle += 360;
         }
 
@@ -133,6 +171,8 @@ public class DrawableView extends RelativeLayout
     {
         super.onDraw(canvas);
         if (preview != null)
+        {
             canvas.drawBitmap(preview, 0, 0, paint);
+        }
     }
 }

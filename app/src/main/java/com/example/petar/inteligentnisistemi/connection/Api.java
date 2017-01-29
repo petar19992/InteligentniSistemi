@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -25,4 +26,20 @@ public interface Api
     Call<ArrayList<Node>> getAllNodes();
     @POST("car/registrationNumber")
     Call<Car> getCarByRegistrationNumber(@Body RequestBody params);
+    @POST("car/lastNode")
+    Call<ArrayList<Car>> getCarByLastNode(@Body RequestBody params);
+    @POST("car/brand")
+    Call<ArrayList<Car>> getCarByBrand(@Body RequestBody params);
+    @POST("car/addCar")
+    Call<Response<Void>> addNewCar(@Body RequestBody params);
+    @POST("car/position")
+    Call<Response<Void>> findCarByNode(@Body RequestBody params); //ToDo
+    @POST("car/updateCarPosition")
+    Call<Response<Void>> updateCarPosition(@Body RequestBody params);
+    @POST("car/connectedNodes")
+    Call<ArrayList<Node>> getNodeByCnnectedNodes(@Body RequestBody params);
+    @POST("node/connectedNodesId")
+    Call<ArrayList<Long>> getConnectedNodesIds(@Body RequestBody params);
+    @POST("car/getWeatherInformation")
+    Call<ArrayList<Node>> getWeatherInformation(@Body RequestBody params);
 }

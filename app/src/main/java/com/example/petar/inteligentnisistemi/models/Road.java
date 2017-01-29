@@ -2,10 +2,9 @@ package com.example.petar.inteligentnisistemi.models;
 
 import java.io.Serializable;
 
-
 public class Road implements Serializable{
 
-	long id;
+	Long id;
 	String name;
 	Node startNode;
 	Node endNode;
@@ -20,15 +19,8 @@ public class Road implements Serializable{
 		super();
 		this.id = id;
 	}
-	public Road(String name, Node startNode, Node endNode, Integer weight, String directionType) {
-		super();
-		this.name = name;
-		this.startNode = startNode;
-		this.endNode = endNode;
-		this.weight = weight;
-		this.directionType = directionType;
-	}
-	public long getId() {
+
+	public Long getId() {
 		return id;
 	}
 	public void setId(long id) {
@@ -64,7 +56,15 @@ public class Road implements Serializable{
 	public void setDirectionType(String directionType) {
 		this.directionType = directionType;
 	}
-	
+
+	public Node getSource() {
+		return startNode;
+	}
+
+	public Node getDestination() {
+		return endNode;
+	}
+
 	@Override
 	public String toString() {
 		return "Road [id=" + id + ", name=" + name + ", startNode=" + startNode + ", endNode=" + endNode + ", weight="

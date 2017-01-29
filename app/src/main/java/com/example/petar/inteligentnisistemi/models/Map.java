@@ -9,10 +9,12 @@ import java.util.ArrayList;
 public class Map {
 
     public ArrayList<Node> nodes;
+    public ArrayList<Car> cars;
 
     public Map()
     {
         nodes=new ArrayList<>();
+        cars=new ArrayList<>();
     }
     public Node getNodeAt(int position)
     {

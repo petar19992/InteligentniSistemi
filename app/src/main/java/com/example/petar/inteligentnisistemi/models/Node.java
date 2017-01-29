@@ -1,44 +1,23 @@
 package com.example.petar.inteligentnisistemi.models;
 
 import java.io.Serializable;
+import java.lang.*;
+import java.lang.Object;
+import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class Node implements Serializable{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -796884698615643293L;
-
-	
-
 	long id;
 	String name;
-	Integer xCoordinate;
-	Integer yCoordinate;
+	String longitude;
+	String latitude;
 	NodeType nodeType;
-//	@OneToOne
-//	Integer nodeTypeID;
-//	Node connectedNode1;
-//	Node connectedNode2;)
-//	@ManyToMany(targetEntity=Node.class)
-	List<ConnectedNode> connected;
-//	List<Node> connected;
-//	@ManyToMany(targetEntity=Node.class)
-//	List<Integer> connected;
-	
-	
+
 	public Node() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public Node(long id) {
-		super();
-		this.id = id;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -51,23 +30,18 @@ public class Node implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getxCoordinate() {
-		return xCoordinate;
+	public String getLongitude()
+	{
+		return longitude;
 	}
-	public void setxCoordinate(Integer xCoordinate) {
-		this.xCoordinate = xCoordinate;
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
-	public Integer getyCoordinate() {
-		return yCoordinate;
+	public String getLatitude() {
+		return latitude;
 	}
-	public void setyCoordinate(Integer yCoordinate) {
-		this.yCoordinate = yCoordinate;
-	}
-	public List<ConnectedNode> getConnected() {
-		return connected;
-	}
-	public void setConnected(List<ConnectedNode> connected) {
-		this.connected = connected;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 	public NodeType getNodeType() {
 		return nodeType;
@@ -77,14 +51,52 @@ public class Node implements Serializable{
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+//		result = prime * result + (((Long)id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Long id = this.id;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Node other = (Node) obj;
+		if (id == null) {
+			if ((Long)other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "Node{" +
 				"id=" + id +
 				", name='" + name + '\'' +
-				", xCoordinate=" + xCoordinate +
-				", yCoordinate=" + yCoordinate +
+				", longitude='" + longitude + '\'' +
+				", latitude='" + latitude + '\'' +
 				", nodeType=" + nodeType +
-				", connected=" + connected +
 				'}';
 	}
+
+	/*************************************************************/
+	public String getNodeForConnectionNodes()
+	{
+		return "{\n" +
+				"\"name\": \""+name+"\",\n" +
+				"\"nodeType\": {\n" +
+				"\"name\":\""+nodeType.getName()+"\"\n" +
+				"}\n" +
+				"}";
+	}
+
+	public ArrayList<Node> connectedNodes=new ArrayList<>();
 }

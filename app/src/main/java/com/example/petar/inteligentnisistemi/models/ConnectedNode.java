@@ -9,7 +9,9 @@ import java.io.Serializable;
 public class ConnectedNode implements Serializable {
 
     long id;
+//    @JoinColumn(name="node_id")
     long nodeId;
+//    @JoinColumn(name="node_id")
     long connectedNodeId;
 
     public long getId() {

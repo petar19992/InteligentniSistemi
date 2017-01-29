@@ -3,17 +3,22 @@ package com.example.petar.inteligentnisistemi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.petar.inteligentnisistemi.connection.Api;
+import com.example.petar.inteligentnisistemi.connection.Connections;
 import com.example.petar.inteligentnisistemi.customComponents.DrawableView;
+import com.example.petar.inteligentnisistemi.helpers.Constants;
 import com.example.petar.inteligentnisistemi.models.Car;
+import com.example.petar.inteligentnisistemi.models.ConnectedNode;
+import com.example.petar.inteligentnisistemi.models.Node;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,48 +36,85 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawableView = (DrawableView) findViewById(R.id.drawableView);
-
-        Retrofit restAdapter = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.15:8082/")  //call your base url :8082
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Api api = restAdapter.create(Api.class);
-        Call<ArrayList<Car>> repos = api.getAllCars();
-        repos.enqueue(new Callback<ArrayList<Car>>()
+        drawableView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.i("Sda", "Kliknuto");
+            }
+        });
+        Connections.getInstance().getAllCars(new Callback<ArrayList<Car>>()
         {
             @Override
             public void onResponse(Call<ArrayList<Car>> call, Response<ArrayList<Car>> response)
             {
-
-
+                if (response.isSuccessful())
+                {
+                    Constants.getInstance().map.cars = response.body();
+                    drawableView.drawCars();
+                }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Car>> call, Throwable t)
             {
-
+                Log.i("Sda", "Gotovo");
             }
         });
-
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), "{\"regBr\": \"NI 245 45\"}");
-        Call<Car> response = api.getCarByRegistrationNumber(body);
-
-        response.enqueue(new Callback<Car>()
+        Connections.getInstance().getAllNodes(new Callback<ArrayList<Node>>()
         {
             @Override
-            public void onResponse(Call<Car> call, Response<Car> response)
+            public void onResponse(Call<ArrayList<Node>> call, Response<ArrayList<Node>> response)
             {
-                Log.i("", "USPESNO");
+                Constants.getInstance().map.nodes = response.body();
+                if (Constants.getInstance().map.nodes != null && Constants.getInstance().map.nodes.size() > 0)
+                {
+                    for (final Node n : Constants.getInstance().map.nodes)
+                    {
+                        if (n != null)
+                            Connections.getInstance().getConnectedNodesIds(n, new Callback<ArrayList<Long>>()
+                            {
+                                @Override
+                                public void onResponse(Call<ArrayList<Long>> call, Response<ArrayList<Long>> response)
+                                {
+                                    if (response.isSuccessful())
+                                    {
+                                        ArrayList<Long> ids = response.body();
+                                        if (ids != null)
+                                            for (Node node : Constants.getInstance().map.nodes)
+                                            {
+                                                if (node != null)
+                                                    if (ids.contains(node.getId()))
+                                                    {
+                                                        n.connectedNodes.add(node);
+                                                    }
+                                            }
+                                    }
+                                    if (Constants.getInstance().map.nodes.indexOf(n) == Constants.getInstance().map.nodes.size() - 1)
+                                    {
+                                        drawableView.drawMap();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ArrayList<Long>> call, Throwable t)
+                                {
+                                    Log.i("Sda", "Gotovo");
+                                }
+                            });
+                    }
+                }
             }
 
             @Override
-            public void onFailure(Call<Car> call, Throwable t)
+            public void onFailure(Call<ArrayList<Node>> call, Throwable t)
             {
-                Log.i("", "NEUSPESNO");
+                Log.i("Sda", "Gotovo");
             }
         });
-       /* MapParser mp = new MapParser();
+
+        /*MapParser mp = new MapParser();
         try
         {
             mp.main(getApplicationContext());

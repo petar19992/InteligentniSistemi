@@ -1,6 +1,5 @@
 package com.example.petar.inteligentnisistemi.models;
 
-
 public class NodeType {
 	long id;
 	String name;

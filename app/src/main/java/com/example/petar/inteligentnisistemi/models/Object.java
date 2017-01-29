@@ -4,17 +4,15 @@ import java.io.Serializable;
 
 public class Object implements Serializable{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 3681419487480460951L;
 
 	long id;
 	String name;
 	long node1Id;
 	long node2Id;
-	float  distanceFromNode1;
-	float   distanceFromNode2;
+	float distanceFromNode1;
+	float distanceFromNode2;
 
 	public Object() {
 		super();
