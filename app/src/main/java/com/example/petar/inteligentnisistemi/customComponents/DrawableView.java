@@ -24,6 +24,7 @@ import com.example.petar.inteligentnisistemi.models.Node;
 public class DrawableView extends RelativeLayout
 {
     Paint yellowPaint;
+    Paint redPaint;
 
     public DrawableView(Context context)
     {
@@ -51,8 +52,12 @@ public class DrawableView extends RelativeLayout
         yellowPaint = new Paint();
         yellowPaint.setColor(getResources().getColor(R.color.roadColor));
         yellowPaint.setStrokeWidth(10);
+        redPaint = new Paint();
+        redPaint.setColor(Color.RED);
+        redPaint.setStrokeWidth(10);
         traffic = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_traffic_black_24dp), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
         car = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_car_black_24dp), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
+        myCar = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.my_car), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
         roundabout = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.roundabout), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
 
 
@@ -62,6 +67,7 @@ public class DrawableView extends RelativeLayout
     Bitmap preview;
     Bitmap traffic;
     Bitmap car;
+    Bitmap myCar;
     Bitmap roundabout;
     RelativeLayout.LayoutParams progressBarParams;
     RelativeLayout.LayoutParams nodeParams;
@@ -111,6 +117,7 @@ public class DrawableView extends RelativeLayout
                 {
                     canvas.drawBitmap(roundabout, x, y, new Paint());
                 }
+                canvas.drawText("" + node.getId(), x, y - 18, redPaint);
                /* ImageView imageView = new ImageView(getContext());
                 imageView.setX(x);
                 imageView.setY(y);
@@ -127,21 +134,31 @@ public class DrawableView extends RelativeLayout
         invalidate();
     }
 
+    ImageView currentCarImageView;
 
     public void drawCars()
     {
         removeAllViews();
         for (Car currCar : Constants.getInstance().map.cars)
         {
-            ImageView carOnMap;
-
-            carOnMap = new ImageView(getContext());
-            int x = (int) ((Float.valueOf(currCar.getPositionNode1().getLongitude()) + Float.valueOf(currCar.getPositionNode2().getLongitude())) / 2 / 100 * getWidth());
-            int y = (int) ((Float.valueOf(currCar.getPositionNode1().getLatitude()) + Float.valueOf(currCar.getPositionNode2().getLatitude())) / 2 / 100 * getHeight());
-            carOnMap.setX(x);
-            carOnMap.setY(y);
-            carOnMap.setImageBitmap(car);
-            addView(carOnMap);
+            if (currCar.getPositionNode1() != null && currCar.getPositionNode2() != null && currCar.getPositionNode1().getLongitude() != null)
+            {
+                ImageView carOnMap;
+                carOnMap = new ImageView(getContext());
+                int x = (int) ((Float.valueOf(currCar.getPositionNode1().getLongitude()) + Float.valueOf(currCar.getPositionNode2().getLongitude())) / 2 / 100 * getWidth());
+                int y = (int) ((Float.valueOf(currCar.getPositionNode1().getLatitude()) + Float.valueOf(currCar.getPositionNode2().getLatitude())) / 2 / 100 * getHeight());
+                carOnMap.setX(x);
+                carOnMap.setY(y);
+                if (currCar.getRegBr().equals(Constants.getInstance().regbr))
+                {
+                    carOnMap.setImageBitmap(myCar);
+                    currentCarImageView = carOnMap;
+                } else
+                {
+                    carOnMap.setImageBitmap(car);
+                }
+                addView(carOnMap);
+            }
 
         }
     }

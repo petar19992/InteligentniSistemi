@@ -2,6 +2,8 @@ package com.example.petar.inteligentnisistemi.connection;
 
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,9 +31,12 @@ public class Connections
 
     private Connections()
     {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
         restAdapter = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.15:8082/")  //call your base url :8082
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         api = restAdapter.create(Api.class);
     }
@@ -43,7 +48,21 @@ public class Connections
         return instance;
     }
 
-
+    public void login(String regBr,String marka,Callback<String> callback)
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("regBr", regBr);
+            jsonObject.put("brand", marka);
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString() /*"{\"regBr\": \"NI 245 45\"}"*/);
+        Call<String> response = api.login(body);
+        response.enqueue(callback);
+    }
     public void getAllCars(Callback<ArrayList<Car>> callback)
     {
         Call<ArrayList<Car>> repos = api.getAllCars();

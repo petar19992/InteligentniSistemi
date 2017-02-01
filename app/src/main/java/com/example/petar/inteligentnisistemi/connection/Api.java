@@ -42,4 +42,6 @@ public interface Api
     Call<ArrayList<Long>> getConnectedNodesIds(@Body RequestBody params);
     @POST("car/getWeatherInformation")
     Call<ArrayList<Node>> getWeatherInformation(@Body RequestBody params);
+    @POST("carSys/logIn")
+    Call<String> login(@Body RequestBody params);
 }

@@ -26,4 +26,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'javax.annotation:javax.annotation-api:1.2'
+
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }

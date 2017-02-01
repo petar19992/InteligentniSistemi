@@ -25,6 +25,8 @@ public class Constants {
 
     /************************************/
     public Map map;
+    public String regbr;
+    public String marka;
     /************************************/
 
     private static Constants instance;

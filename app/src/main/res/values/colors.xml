@@ -2,6 +2,9 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+
     <color name="roadColor">#e4f290</color>
+    <color name="textColor">#20201f</color>
+    <color name="background">#c5c6c2</color>
 </resources>

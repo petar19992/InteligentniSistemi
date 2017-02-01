@@ -1,6 +1,8 @@
 package com.example.petar.inteligentnisistemi;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +18,16 @@ import com.example.petar.inteligentnisistemi.models.Node;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -44,24 +55,28 @@ public class MainActivity extends Activity
                 Log.i("Sda", "Kliknuto");
             }
         });
-        Connections.getInstance().getAllCars(new Callback<ArrayList<Car>>()
-        {
-            @Override
-            public void onResponse(Call<ArrayList<Car>> call, Response<ArrayList<Car>> response)
-            {
-                if (response.isSuccessful())
-                {
-                    Constants.getInstance().map.cars = response.body();
-                    drawableView.drawCars();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ArrayList<Car>> call, Throwable t)
+        if(Constants.getInstance().map.cars.size()==0)
+        {
+            Connections.getInstance().getAllCars(new Callback<ArrayList<Car>>()
             {
-                Log.i("Sda", "Gotovo");
-            }
-        });
+                @Override
+                public void onResponse(Call<ArrayList<Car>> call, Response<ArrayList<Car>> response)
+                {
+                    if (response.isSuccessful())
+                    {
+                        Constants.getInstance().map.cars = response.body();
+                        drawableView.drawCars();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Car>> call, Throwable t)
+                {
+                    Log.i("Sda", "Gotovo");
+                }
+            });
+        }
         Connections.getInstance().getAllNodes(new Callback<ArrayList<Node>>()
         {
             @Override
@@ -73,6 +88,7 @@ public class MainActivity extends Activity
                     for (final Node n : Constants.getInstance().map.nodes)
                     {
                         if (n != null)
+                        {
                             Connections.getInstance().getConnectedNodesIds(n, new Callback<ArrayList<Long>>()
                             {
                                 @Override
@@ -82,18 +98,23 @@ public class MainActivity extends Activity
                                     {
                                         ArrayList<Long> ids = response.body();
                                         if (ids != null)
+                                        {
                                             for (Node node : Constants.getInstance().map.nodes)
                                             {
                                                 if (node != null)
+                                                {
                                                     if (ids.contains(node.getId()))
                                                     {
                                                         n.connectedNodes.add(node);
                                                     }
+                                                }
                                             }
+                                        }
                                     }
                                     if (Constants.getInstance().map.nodes.indexOf(n) == Constants.getInstance().map.nodes.size() - 1)
                                     {
                                         drawableView.drawMap();
+                                        drawableView.drawCars();
                                     }
                                 }
 
@@ -103,6 +124,7 @@ public class MainActivity extends Activity
                                     Log.i("Sda", "Gotovo");
                                 }
                             });
+                        }
                     }
                 }
             }
@@ -151,6 +173,48 @@ public class MainActivity extends Activity
         {
             /*firstInit = false;
             drawableView.drawMap();*/
+        }
+    }
+
+
+    class RequestTask extends AsyncTask<String, String, String>
+    {
+
+        @Override
+        protected String doInBackground(String... uri)
+        {
+            String responseString = null;
+            try
+            {
+                URL url = new URL("");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                if (conn.getResponseCode() == HttpsURLConnection.HTTP_OK)
+                {
+                    // Do normal input or output stream reading
+                    BufferedReader r = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder total = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null)
+                    {
+                        total.append(line).append('\n');
+                    }
+                } else
+                {
+
+                }
+            }
+            catch (IOException e)
+            {
+                //TODO Handle problems..
+            }
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            super.onPostExecute(result);
+            //Do anything with response..
         }
     }
 }

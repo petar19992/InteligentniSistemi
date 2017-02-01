@@ -3,6 +3,8 @@ package com.example.petar.inteligentnisistemi;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -29,5 +31,12 @@ public class UIApplication extends Application
         display.getSize(size);
         WIDTH = size.x;
         HEIGHT = size.y;
+    }
+
+    protected static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
     }
 }
