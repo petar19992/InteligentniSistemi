@@ -19,6 +19,7 @@ import com.example.petar.inteligentnisistemi.models.Car;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,13 +63,17 @@ public class LoginActivity extends Activity implements View.OnClickListener
                 progressDialog = new ProgressDialog(LoginActivity.this);
                 progressDialog.setMessage("Login , Please wait...");
                 progressDialog.show();
-                Connections.getInstance().login(Constants.getInstance().regbr, Constants.getInstance().marka, new Callback<String>()
+                Connections.getInstance().login(Constants.getInstance().regbr, Constants.getInstance().marka, new Callback<ResponseBody>()
                 {
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response)
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response)
                     {
                         if (response.isSuccessful())
                         {
+                            if(response.body().toString().contains("register"))
+                            {
+
+                            }
                             SharePreferenceManager.getInstance().put(SharePreferenceManager.REG_BR, Constants.getInstance().regbr);
                             SharePreferenceManager.getInstance().put(SharePreferenceManager.MARKA, Constants.getInstance().marka);
                             Connections.getInstance().getAllCars(new Callback<ArrayList<Car>>()
@@ -96,7 +101,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable t)
+                    public void onFailure(Call<ResponseBody> call, Throwable t)
                     {
                         Log.i("Sda", "Gotovo");
                     }

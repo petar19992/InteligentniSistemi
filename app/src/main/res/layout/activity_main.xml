@@ -12,14 +12,11 @@
         android:layout_height="match_parent">
 
     </com.example.petar.inteligentnisistemi.customComponents.DrawableView>
-
-    <!--<ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_centerHorizontal="true"
-        android:rotation="45"
-        android:transformPivotX="0dp"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progressDrawable="@drawable/progress_drawable"
-        android:layout_width="250dp"
-        android:layout_height="20dp"/>-->
+    <ImageView
+        android:id="@+id/logout"
+        android:src="@drawable/logout_big"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

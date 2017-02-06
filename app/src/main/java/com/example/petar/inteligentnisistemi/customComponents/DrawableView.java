@@ -8,9 +8,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.example.petar.inteligentnisistemi.R;
 import com.example.petar.inteligentnisistemi.UIApplication;
 import com.example.petar.inteligentnisistemi.helpers.Constants;
@@ -26,25 +30,39 @@ public class DrawableView extends RelativeLayout
     Paint yellowPaint;
     Paint redPaint;
 
+    RelativeLayout layoutForStreets;
+    RelativeLayout layoutForCars;
+
+    private void init(Context context)
+    {
+        setWillNotDraw(false);
+        setPaintAndParams();
+        RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutForStreets = new RelativeLayout(context);
+        layoutForCars = new RelativeLayout(context);
+        layoutForStreets.setLayoutParams(params);
+        layoutForCars.setLayoutParams(params);
+        addView(layoutForStreets);
+        addView(layoutForCars);
+    }
+
     public DrawableView(Context context)
     {
         super(context);
-        setWillNotDraw(false);
-        setPaintAndParams();
+        init(context);
+
     }
 
     public DrawableView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        setWillNotDraw(false);
-        setPaintAndParams();
+        init(context);
     }
 
     public DrawableView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
-        setWillNotDraw(false);
-        setPaintAndParams();
+        init(context);
     }
 
     private void setPaintAndParams()
@@ -89,17 +107,22 @@ public class DrawableView extends RelativeLayout
                     int startY = (int) (Float.valueOf(node.getLatitude()) / 100 * getHeight()) + traffic.getHeight() / 2;
                     int endY = (int) (Float.valueOf(n.getLatitude()) / 100 * getHeight()) + traffic.getHeight() / 2;
                     int distance = (int) getDistance(startX, startY, endX, endY);
-                    canvas.drawLine(startX, startY, endX, endY, yellowPaint);
-                    /*progressBarParams = new LayoutParams(distance, 20);
-                    ProgressBar progressBar = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
+                    /*canvas.drawLine(startX, startY, endX, endY, yellowPaint);*/
+
+
+                    progressBarParams = new LayoutParams(distance, 20);
+                    RoundCornerProgressBar progressBar = new RoundCornerProgressBar(getContext(), null);
+//                    ProgressBar progressBar = new ProgressBar(getContext(), null,android.R.attr.progressBarStyleHorizontal);
                     progressBar.setLayoutParams(progressBarParams);
                     progressBar.setPivotX(0f);
                     progressBar.setX(startX);
                     progressBar.setY(startY);
+                    progressBar.setMax(100);
+//                    progressBar.setProgress(100);
+                    progressBar.setProgressColor(Color.parseColor("#58858e"));
                     progressBar.setRotation((float) calcRotationAngleInDegrees(startX, startY, endX, endY) - 90);
-                    progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.progress_drawable));
-
-                    addView(progressBar);*/
+                    progressBar.setOnClickListener(onProgressBarClick);
+                    layoutForStreets.addView(progressBar);
                 }
 
             }
@@ -110,35 +133,55 @@ public class DrawableView extends RelativeLayout
             {
                 int x = (int) (Float.valueOf(node.getLongitude()) / 100 * getWidth());
                 int y = (int) (Float.valueOf(node.getLatitude()) / 100 * getHeight());
-                if (node.getNodeType().getName().equals("Intersection"))
+                /*if (node.getNodeType().getName().equals("Intersection"))
                 {
                     canvas.drawBitmap(traffic, x, y, new Paint());
                 } else
                 {
                     canvas.drawBitmap(roundabout, x, y, new Paint());
-                }
-                canvas.drawText("" + node.getId(), x, y - 18, redPaint);
-               /* ImageView imageView = new ImageView(getContext());
+                }*/
+//                canvas.drawText("" + node.getId(), x, y - 18, redPaint);
+                ImageView imageView = new ImageView(getContext());
                 imageView.setX(x);
                 imageView.setY(y);
-                nodeParams = new LayoutParams(UIApplication.WIDTH / 13, UIApplication.WIDTH / 13);
+                nodeParams = new LayoutParams(UIApplication.HEIGHT / 15, UIApplication.HEIGHT / 15);
                 imageView.setLayoutParams(nodeParams);
                 if (node.getNodeType().getName().equals("Intersection"))
+                {
                     imageView.setImageResource(R.drawable.ic_traffic_black_24dp);
-                else
+                } else
+                {
                     imageView.setImageResource(R.drawable.roundabout);
-                addView(imageView);*/
+                }
+                imageView.setOnClickListener(onIntersectionClick);
+                layoutForStreets.addView(imageView);
             }
         }
         setBackground(new BitmapDrawable(preview));
         invalidate();
     }
 
+    View.OnClickListener onProgressBarClick = new OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            double theta = 0;
+        }
+    };
+    View.OnClickListener onIntersectionClick=new OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+
+        }
+    };
     ImageView currentCarImageView;
 
     public void drawCars()
     {
-        removeAllViews();
+//        removeAllViews();
         for (Car currCar : Constants.getInstance().map.cars)
         {
             if (currCar.getPositionNode1() != null && currCar.getPositionNode2() != null && currCar.getPositionNode1().getLongitude() != null)
@@ -153,6 +196,7 @@ public class DrawableView extends RelativeLayout
                 {
                     carOnMap.setImageBitmap(myCar);
                     currentCarImageView = carOnMap;
+                    Constants.getInstance().myCar = currCar;
                 } else
                 {
                     carOnMap.setImageBitmap(car);

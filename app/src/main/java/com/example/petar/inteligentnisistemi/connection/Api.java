@@ -7,6 +7,7 @@ import com.example.petar.inteligentnisistemi.models.User;
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -43,5 +44,7 @@ public interface Api
     @POST("car/getWeatherInformation")
     Call<ArrayList<Node>> getWeatherInformation(@Body RequestBody params);
     @POST("carSys/logIn")
-    Call<String> login(@Body RequestBody params);
+    Call<ResponseBody> login(@Body RequestBody params);
+    @POST("carSys/startnavigation")
+    Call<String> startNavigation(@Body RequestBody params);
 }

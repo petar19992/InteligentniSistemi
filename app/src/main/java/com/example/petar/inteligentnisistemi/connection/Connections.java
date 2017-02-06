@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +49,7 @@ public class Connections
         return instance;
     }
 
-    public void login(String regBr,String marka,Callback<String> callback)
+    public void login(String regBr,String marka,Callback<ResponseBody> callback)
     {
         JSONObject jsonObject = new JSONObject();
         try
@@ -60,7 +61,7 @@ public class Connections
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString() /*"{\"regBr\": \"NI 245 45\"}"*/);
-        Call<String> response = api.login(body);
+        Call<ResponseBody> response = api.login(body);
         response.enqueue(callback);
     }
     public void getAllCars(Callback<ArrayList<Car>> callback)
@@ -137,4 +138,20 @@ public class Connections
         Call<ArrayList<Long>> response = api.getConnectedNodesIds(body);
         response.enqueue(callback);
     }
+
+    /*public void startNavigation(String regBr, String brand, Callback<Response<Void>> callback)
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("regBr", regBr);
+            jsonObject.put("brand", brand);
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        Call<Response<Void>> response = api.startNavigation(body);
+        response.enqueue(callback);
+    }*/
 }

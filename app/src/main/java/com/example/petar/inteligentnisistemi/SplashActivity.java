@@ -36,7 +36,8 @@ public class SplashActivity extends Activity
             mainIntent = new Intent(this, LoginActivity.class);
         } else
         {
-            mainIntent = new Intent(this, MainActivity.class);
+            mainIntent = new Intent(this, LoginActivity.class);
+//            mainIntent = new Intent(this, MainActivity.class);
         }
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/

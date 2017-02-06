@@ -3,6 +3,7 @@ package com.example.petar.inteligentnisistemi.helpers;
 import android.app.DownloadManager;
 import android.os.AsyncTask;
 
+import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Map;
 import com.example.petar.inteligentnisistemi.models.Node;
 
@@ -25,6 +26,7 @@ public class Constants {
 
     /************************************/
     public Map map;
+    public Car myCar;
     public String regbr;
     public String marka;
     /************************************/
