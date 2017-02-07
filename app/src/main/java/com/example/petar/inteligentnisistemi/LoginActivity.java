@@ -84,7 +84,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
                                     if (response.isSuccessful())
                                     {
                                         Constants.getInstance().map.cars = response.body();
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, Main2Activity.class);
                                         startActivity(intent);
                                         finish();
                                     }

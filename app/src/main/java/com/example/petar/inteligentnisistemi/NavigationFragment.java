@@ -1,27 +1,22 @@
 package com.example.petar.inteligentnisistemi;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.example.petar.inteligentnisistemi.connection.Api;
 import com.example.petar.inteligentnisistemi.connection.Connections;
 import com.example.petar.inteligentnisistemi.customComponents.DrawableView;
 import com.example.petar.inteligentnisistemi.helpers.Constants;
 import com.example.petar.inteligentnisistemi.models.Car;
-import com.example.petar.inteligentnisistemi.models.ConnectedNode;
 import com.example.petar.inteligentnisistemi.models.Node;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,24 +24,24 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends Activity
+/**
+ * Created by PETAR on 2/6/2017.
+ */
+
+public class NavigationFragment extends Fragment
 {
-
     DrawableView drawableView;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        drawableView = (DrawableView) findViewById(R.id.drawableView);
+        View rootView = inflater.inflate(R.layout.activity_main, container, false);
+        drawableView = (DrawableView) rootView.findViewById(R.id.drawableView);
         drawableView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -138,47 +133,8 @@ public class MainActivity extends Activity
                 Log.i("Sda", "Gotovo");
             }
         });
-
-        /*MapParser mp = new MapParser();
-        try
-        {
-            mp.main(getApplicationContext());
-            for (int i = 0; i < Constants.getInstance().map.nodes.size(); i++)
-            {
-                for (int e : Constants.getInstance().map.nodes.get(i).tmpEdges)
-                {
-                    Edge edge = new Edge();
-                    edge.from = Constants.getInstance().map.getNodeAt(i);
-                    edge.to = Constants.getInstance().map.getNodeAt(e - 1);
-                    Constants.getInstance().map.getNodeAt(i).edges.add(edge);
-                }
-            }
-            Log.i("Sda", "Gotovo");
-        } catch (XmlPullParserException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }*/
-
-        /*((ProgressBar)findViewById(R.id.progressBar)).setMax(100);
-        ((ProgressBar)findViewById(R.id.progressBar)).setProgress(50);*/
+        return rootView;
     }
-
-    boolean firstInit = true;
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-        super.onWindowFocusChanged(hasFocus);
-        if (firstInit)
-        {
-            /*firstInit = false;
-            drawableView.drawMap();*/
-        }
-    }
-
 
     class RequestTask extends AsyncTask<String, String, String>
     {

@@ -2,6 +2,7 @@ package com.example.petar.inteligentnisistemi.connection;
 
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
+import com.example.petar.inteligentnisistemi.models.parsing.MyWeather;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -94,6 +95,12 @@ public class Connections
     {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), node.toString());
         Call<ArrayList<Car>> response = api.getCarByLastNode(body);
+        response.enqueue(callback);
+    }
+    public void getWeatherInformation(Car car, Callback<MyWeather> callback)
+    {
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), car.toString());
+        Call<MyWeather> response = api.getWeatherInformation(body);
         response.enqueue(callback);
     }
     public void getCarByBrand(String brand, Callback<ArrayList<Car>> callback)

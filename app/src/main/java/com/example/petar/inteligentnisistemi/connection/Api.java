@@ -3,6 +3,7 @@ package com.example.petar.inteligentnisistemi.connection;
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
 import com.example.petar.inteligentnisistemi.models.User;
+import com.example.petar.inteligentnisistemi.models.parsing.MyWeather;
 
 import java.util.ArrayList;
 
@@ -41,8 +42,8 @@ public interface Api
     Call<ArrayList<Node>> getNodeByCnnectedNodes(@Body RequestBody params);
     @POST("node/connectedNodesId")
     Call<ArrayList<Long>> getConnectedNodesIds(@Body RequestBody params);
-    @POST("car/getWeatherInformation")
-    Call<ArrayList<Node>> getWeatherInformation(@Body RequestBody params);
+    @POST("carSys/getWeatherInformation")
+    Call<MyWeather> getWeatherInformation(@Body RequestBody params);
     @POST("carSys/logIn")
     Call<ResponseBody> login(@Body RequestBody params);
     @POST("carSys/startnavigation")

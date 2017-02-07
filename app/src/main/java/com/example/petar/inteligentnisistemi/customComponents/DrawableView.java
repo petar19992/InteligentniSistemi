@@ -21,6 +21,8 @@ import com.example.petar.inteligentnisistemi.helpers.Constants;
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
 
+import static com.example.petar.inteligentnisistemi.R.drawable.roundabout;
+
 /**
  * Created by petar on 9.10.16..
  */
@@ -79,6 +81,22 @@ public class DrawableView extends RelativeLayout
         roundabout = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.roundabout), UIApplication.HEIGHT / 13, UIApplication.HEIGHT / 13, true);
 
 
+    }
+
+    boolean firstInit = true;
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        if (firstInit)
+        {
+            if (Constants.getInstance().map.nodes.size() > 0)
+            {
+                firstInit = false;
+                drawMap();
+            }
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     Paint paint = new Paint();
@@ -169,7 +187,7 @@ public class DrawableView extends RelativeLayout
             double theta = 0;
         }
     };
-    View.OnClickListener onIntersectionClick=new OnClickListener()
+    View.OnClickListener onIntersectionClick = new OnClickListener()
     {
         @Override
         public void onClick(View v)
