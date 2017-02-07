@@ -90,7 +90,7 @@ public class DrawableView extends RelativeLayout
     {
         if (firstInit)
         {
-            if (Constants.getInstance().map.nodes.size() > 0)
+            if (Constants.getInstance().map.nodes.size() > 0 && getWidth() > 0)
             {
                 firstInit = false;
                 drawMap();
@@ -114,6 +114,7 @@ public class DrawableView extends RelativeLayout
         preview.eraseColor(Color.WHITE);
 
         Canvas canvas = new Canvas(preview);
+        int progressBarHeight = UIApplication.HEIGHT / 40;
         for (Node node : Constants.getInstance().map.nodes)
         {
             for (Node n : node.connectedNodes)
@@ -128,7 +129,7 @@ public class DrawableView extends RelativeLayout
                     /*canvas.drawLine(startX, startY, endX, endY, yellowPaint);*/
 
 
-                    progressBarParams = new LayoutParams(distance, 20);
+                    progressBarParams = new LayoutParams(distance, progressBarHeight);
                     RoundCornerProgressBar progressBar = new RoundCornerProgressBar(getContext(), null);
 //                    ProgressBar progressBar = new ProgressBar(getContext(), null,android.R.attr.progressBarStyleHorizontal);
                     progressBar.setLayoutParams(progressBarParams);
@@ -158,7 +159,7 @@ public class DrawableView extends RelativeLayout
                 {
                     canvas.drawBitmap(roundabout, x, y, new Paint());
                 }*/
-//                canvas.drawText("" + node.getId(), x, y - 18, redPaint);
+                canvas.drawText("" + node.getId(), x, y - 18, redPaint);
                 ImageView imageView = new ImageView(getContext());
                 imageView.setX(x);
                 imageView.setY(y);

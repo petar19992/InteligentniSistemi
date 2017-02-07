@@ -5,110 +5,174 @@
               android:layout_weight="5"
               android:background="@color/background"
               android:orientation="vertical">
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_weight="1">
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/temperatureText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:paddingBottom="3dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <ImageView
-            android:src="@drawable/temperature"
-            android:id="@+id/temperatureImage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
+            <TextView
+                android:id="@+id/temperatureText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/temperatureImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/temperature"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_weight="1">
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/humidityText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:paddingBottom="3dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <ImageView
-            android:src="@drawable/humidity"
-            android:id="@+id/humidityImage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
+            <TextView
+                android:id="@+id/humidityText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/humidityImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/humidity"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_weight="1">
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/pressureText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:paddingBottom="3dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <ImageView
-            android:src="@drawable/pressure"
-            android:id="@+id/pressureImage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
+            <TextView
+                android:id="@+id/pressureText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/pressureImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/pressure"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_weight="1">
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/sunriseText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:paddingBottom="3dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <ImageView
-            android:src="@drawable/sunrise"
-            android:id="@+id/sunriseImage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
+            <TextView
+                android:id="@+id/sunriseText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/sunriseImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/sunrise"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_weight="1">
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/sunsetText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:paddingBottom="3dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <ImageView
-            android:src="@drawable/sunset"
-            android:id="@+id/sunsetImage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/sunsetText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"/>
 
+            <ImageView
+                android:id="@+id/sunsetImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/sunset"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000"/>
+    </RelativeLayout>
 </LinearLayout>

@@ -72,11 +72,11 @@ public class WeatherFragment extends Fragment
                 MyWeather weather = response.body();
                 if (weather != null)
                 {
-                    temperatureText.setText(String.valueOf(weather.getTemperature()));
-                    humidityText.setText(String.valueOf(weather.getHumidity()));
-                    pressureText.setText(String.valueOf(weather.getPressure()));
-                    sunriseText.setText(String.valueOf(weather.getSunrise()));
-                    sunsetText.setText(String.valueOf(weather.getSunrise()));
+                    temperatureText.setText(String.valueOf(weather.getTemperature())+" °C");
+                    humidityText.setText(String.valueOf(weather.getHumidity())+" %");
+                    pressureText.setText(String.valueOf(weather.getPressure())+" Ba");
+                    sunriseText.setText(String.valueOf(weather.getSunrise())+" AM");
+                    sunsetText.setText(String.valueOf(weather.getSunrise())+" PM");
                 }
             }
 
