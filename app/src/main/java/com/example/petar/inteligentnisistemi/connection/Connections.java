@@ -2,6 +2,7 @@ package com.example.petar.inteligentnisistemi.connection;
 
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
+import com.example.petar.inteligentnisistemi.models.PathObject;
 import com.example.petar.inteligentnisistemi.models.parsing.MyWeather;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,6 +19,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.petar.inteligentnisistemi.R.string.brand;
+import static com.example.petar.inteligentnisistemi.R.string.regBr;
 
 /**
  * Created by PETAR on 1/28/2017.
@@ -146,19 +150,10 @@ public class Connections
         response.enqueue(callback);
     }
 
-    /*public void startNavigation(String regBr, String brand, Callback<Response<Void>> callback)
+    public void startNavigation(Car car,Node cilj, Callback<PathObject> callback)
     {
-        JSONObject jsonObject = new JSONObject();
-        try
-        {
-            jsonObject.put("regBr", regBr);
-            jsonObject.put("brand", brand);
-        } catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
-        Call<Response<Void>> response = api.startNavigation(body);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), car.getStartForNavigation(cilj));
+        Call<PathObject> response = api.startNavigation(body);
         response.enqueue(callback);
-    }*/
+    }
 }

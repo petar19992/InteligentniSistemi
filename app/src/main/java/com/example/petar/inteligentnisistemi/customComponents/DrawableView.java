@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,12 +22,18 @@ import android.widget.RelativeLayout;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.example.petar.inteligentnisistemi.R;
 import com.example.petar.inteligentnisistemi.UIApplication;
+import com.example.petar.inteligentnisistemi.connection.Connections;
 import com.example.petar.inteligentnisistemi.helpers.Constants;
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
+import com.example.petar.inteligentnisistemi.models.PathObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.R.attr.tag;
 import static com.example.petar.inteligentnisistemi.R.drawable.roundabout;
@@ -120,6 +127,7 @@ public class DrawableView extends RelativeLayout
     RelativeLayout.LayoutParams progressBarParams;
     RelativeLayout.LayoutParams nodeParams;
 
+    int defaultProgressColor;
     public void drawMap()
     {
         layoutForStreets.removeAllViews();
@@ -150,6 +158,7 @@ public class DrawableView extends RelativeLayout
                     progressBar.setX(startX);
                     progressBar.setY(startY);
                     progressBar.setMax(100);
+                    defaultProgressColor=progressBar.getProgressBackgroundColor();
 //                    progressBar.setProgress(50);
                     progressBar.setProgressColor(Color.parseColor("#58858e"));
                     progressBar.setRotation((float) calcRotationAngleInDegrees(startX, startY, endX, endY) - 90);
@@ -215,7 +224,7 @@ public class DrawableView extends RelativeLayout
                         {
                             ((RoundCornerProgressBar) layoutForStreets.getChildAt(j)).setProgressBackgroundColor(Color.RED);
                             progressBars.add((RoundCornerProgressBar) layoutForStreets.getChildAt(j));
-//                            layoutForStreets.getChildAt(j).bringToFront();
+                            layoutForStreets.getChildAt(j).bringToFront();
                             break;
                         }
                     }
@@ -252,9 +261,47 @@ public class DrawableView extends RelativeLayout
         @Override
         public void onClick(View v)
         {
+            RoundCornerProgressBar progressBar = (RoundCornerProgressBar) v;
+            Long[] tag = (Long[]) progressBar.getTag();
+            Connections.getInstance().startNavigation(Constants.getInstance().myCar, Constants.getInstance().findNodeById(tag[0]), new Callback<PathObject>()
+            {
+                @Override
+                public void onResponse(Call<PathObject> call, Response<PathObject> response)
+                {
+                    if (response.isSuccessful())
+                    {
+                        PathObject pathObject = response.body();
+                        if (pathObject != null)
+                        {
+                            clearProgressBarsbackground();
+                            ArrayList<Integer> nodesIds = new ArrayList<>();
+                            for(Node node:pathObject.getNodes())
+                            {
+                                nodesIds.add((int) node.getId());
+                            }
+                            drawNavigation(nodesIds);
+                        }
+                    }
+                    Log.i("Sda", "Gotovo");
+                }
+
+                @Override
+                public void onFailure(Call<PathObject> call, Throwable t)
+                {
+                    Log.i("Sda", "Gotovo");
+                }
+            });
             double theta = 0;
         }
     };
+
+    public void clearProgressBarsbackground()
+    {
+        for (int j = 0; j < layoutForStreets.getChildCount(); j++)
+        {
+            ((RoundCornerProgressBar) layoutForStreets.getChildAt(j)).setProgressBackgroundColor(defaultProgressColor);
+        }
+    }
     View.OnClickListener onIntersectionClick = new OnClickListener()
     {
         @Override

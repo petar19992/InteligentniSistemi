@@ -22,85 +22,116 @@ import java.util.ArrayList;
  * Created by petar on 9.10.16..
  */
 
-public class Constants {
+public class Constants
+{
 
     /************************************/
     public Map map;
     public Car myCar;
     public String regbr;
     public String marka;
+
+    public Node findNodeById(long id)
+    {
+        for (Node n : map.nodes)
+            if (n.getId() == id)
+            {
+                return n;
+            }
+        return null;
+    }
+
     /************************************/
 
     private static Constants instance;
+
     public static Constants getInstance()
     {
-        if(instance==null)
-            instance=new Constants();
+        if (instance == null)
+        {
+            instance = new Constants();
+        }
         return instance;
     }
+
     private Constants()
     {
-        map=new Map();
+        map = new Map();
     }
-
 
 
     public interface IGetInterface
     {
         void onStart();
+
         void onFinish(String result);
     }
-    public void GET(String url,IGetInterface iGetInterface)
+
+    public void GET(String url, IGetInterface iGetInterface)
     {
-        new DownloadFilesTask(url,iGetInterface).execute();
+        new DownloadFilesTask(url, iGetInterface).execute();
 
     }
 
-    private class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
+    private class DownloadFilesTask extends AsyncTask<Void, Void, Void>
+    {
 
         String url;
         IGetInterface iGetInterface;
         String result;
-        public DownloadFilesTask(String url,IGetInterface iGetInterface)
+
+        public DownloadFilesTask(String url, IGetInterface iGetInterface)
         {
-            this.url=url;
-            this.iGetInterface=iGetInterface;
+            this.url = url;
+            this.iGetInterface = iGetInterface;
         }
 
         @Override
-        protected void onPreExecute() {
-            if(iGetInterface!=null)
+        protected void onPreExecute()
+        {
+            if (iGetInterface != null)
+            {
                 iGetInterface.onStart();
+            }
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            if(iGetInterface!=null)
+        protected void onPostExecute(Void aVoid)
+        {
+            if (iGetInterface != null)
             {
                 iGetInterface.onFinish(result);
             }
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
-            HttpURLConnection urlConnection=null;
-            try {
+        protected Void doInBackground(Void... params)
+        {
+            HttpURLConnection urlConnection = null;
+            try
+            {
                 URL mUrl = new URL(url);
-                urlConnection= (HttpURLConnection) mUrl.openConnection();
+                urlConnection = (HttpURLConnection) mUrl.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader r = new BufferedReader(new InputStreamReader(in));
                 StringBuilder total = new StringBuilder();
                 String line;
-                while ((line = r.readLine()) != null) {
+                while ((line = r.readLine()) != null)
+                {
                     total.append(line).append('\n');
                 }
-                result=total.toString();
-            }catch (Exception ex)
+                result = total.toString();
+            }
+            catch (Exception ex)
             {
 
-            }finally {
-                if(urlConnection!=null)
+            }
+            finally
+            {
+                if (urlConnection != null)
+                {
                     urlConnection.disconnect();
+                }
             }
             return null;
         }

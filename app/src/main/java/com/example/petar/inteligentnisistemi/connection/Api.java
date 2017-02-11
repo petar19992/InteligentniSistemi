@@ -2,6 +2,7 @@ package com.example.petar.inteligentnisistemi.connection;
 
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
+import com.example.petar.inteligentnisistemi.models.PathObject;
 import com.example.petar.inteligentnisistemi.models.User;
 import com.example.petar.inteligentnisistemi.models.parsing.MyWeather;
 
@@ -46,6 +47,6 @@ public interface Api
     Call<MyWeather> getWeatherInformation(@Body RequestBody params);
     @POST("carSys/logIn")
     Call<ResponseBody> login(@Body RequestBody params);
-    @POST("carSys/startnavigation")
-    Call<String> startNavigation(@Body RequestBody params);
+    @POST("carSys/startNavigation")
+    Call<com.example.petar.inteligentnisistemi.models.PathObject> startNavigation(@Body RequestBody params);
 }

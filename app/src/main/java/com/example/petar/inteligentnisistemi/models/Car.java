@@ -158,4 +158,52 @@ public class Car implements Serializable
 
     /******************************/
     /*public ImageView carOnMap;*/
+
+    public String getStartForNavigation(Node cilj)
+    {
+        return "{" + "\"carPosition\": {"+
+
+                "\"regBr\": \"" + regBr + "\"," +
+                "\"positionNode1\": {" +
+
+                "\"id\": " + positionNode1.getId() + "," +
+
+                "\"name\": \"" + positionNode1.getName() + "\"," +
+
+                "\"nodeType\": {" +
+
+                "\"name\": \"" + positionNode1.getNodeType().getName() + "\"" +
+
+                "}}," +
+
+                "\"positionNode2\": {" +
+
+                "\"id\": " + positionNode2.getId() + "," +
+
+                "\"name\": \"" + positionNode2.getName() + "\"," +
+
+                "\"nodeType\": {" +
+
+                "\"name\": \"" + positionNode2.getNodeType().getName() + "\"" +
+                "}}," +
+
+                "\"lastNode\": {" +
+
+                "\"id\": " + positionNode1.getId() + "," +
+
+                "\"name\": \"" + positionNode1.getName() + "\"," +
+
+                "\"nodeType\": {" +
+
+                "\"name\": \"" + positionNode1.getNodeType().getName() + "\"" +
+                "}}}," +
+                "\"desiredObject\": {\n" +
+                "\t    \"name\": \""+cilj.getName()+"\",\n" +
+                "\t    \"node1Id\": "+cilj.getId()+",\n" +
+                "\t    \"node2Id\": "+(cilj.getId()+1)+",\n" +
+                "\t    \"distanceFromNode1\": 0.3,\n" +
+                "\t    \"distanceFromNode2\": 0.2\n" +
+                "\t}}"
+                ;
+    }
 }
