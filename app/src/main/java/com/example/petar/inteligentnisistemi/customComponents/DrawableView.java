@@ -1,5 +1,9 @@
 package com.example.petar.inteligentnisistemi.customComponents;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +25,10 @@ import com.example.petar.inteligentnisistemi.helpers.Constants;
 import com.example.petar.inteligentnisistemi.models.Car;
 import com.example.petar.inteligentnisistemi.models.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.R.attr.tag;
 import static com.example.petar.inteligentnisistemi.R.drawable.roundabout;
 
 /**
@@ -33,6 +41,7 @@ public class DrawableView extends RelativeLayout
     Paint redPaint;
 
     RelativeLayout layoutForStreets;
+    RelativeLayout layoutForSemaphores;
     RelativeLayout layoutForCars;
 
     private void init(Context context)
@@ -41,10 +50,13 @@ public class DrawableView extends RelativeLayout
         setPaintAndParams();
         RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutForStreets = new RelativeLayout(context);
+        layoutForSemaphores = new RelativeLayout(context);
         layoutForCars = new RelativeLayout(context);
         layoutForStreets.setLayoutParams(params);
+        layoutForSemaphores.setLayoutParams(params);
         layoutForCars.setLayoutParams(params);
         addView(layoutForStreets);
+        addView(layoutForSemaphores);
         addView(layoutForCars);
     }
 
@@ -110,6 +122,8 @@ public class DrawableView extends RelativeLayout
 
     public void drawMap()
     {
+        layoutForStreets.removeAllViews();
+        layoutForSemaphores.removeAllViews();
         preview = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_4444);
         preview.eraseColor(Color.WHITE);
 
@@ -128,7 +142,6 @@ public class DrawableView extends RelativeLayout
                     int distance = (int) getDistance(startX, startY, endX, endY);
                     /*canvas.drawLine(startX, startY, endX, endY, yellowPaint);*/
 
-
                     progressBarParams = new LayoutParams(distance, progressBarHeight);
                     RoundCornerProgressBar progressBar = new RoundCornerProgressBar(getContext(), null);
 //                    ProgressBar progressBar = new ProgressBar(getContext(), null,android.R.attr.progressBarStyleHorizontal);
@@ -137,10 +150,11 @@ public class DrawableView extends RelativeLayout
                     progressBar.setX(startX);
                     progressBar.setY(startY);
                     progressBar.setMax(100);
-//                    progressBar.setProgress(100);
+//                    progressBar.setProgress(50);
                     progressBar.setProgressColor(Color.parseColor("#58858e"));
                     progressBar.setRotation((float) calcRotationAngleInDegrees(startX, startY, endX, endY) - 90);
                     progressBar.setOnClickListener(onProgressBarClick);
+                    progressBar.setTag(new Long[]{node.getId(), n.getId()});
                     layoutForStreets.addView(progressBar);
                 }
 
@@ -173,11 +187,64 @@ public class DrawableView extends RelativeLayout
                     imageView.setImageResource(R.drawable.roundabout);
                 }
                 imageView.setOnClickListener(onIntersectionClick);
-                layoutForStreets.addView(imageView);
+                layoutForSemaphores.addView(imageView);
             }
         }
         setBackground(new BitmapDrawable(preview));
         invalidate();
+    }
+
+    ArrayList<RoundCornerProgressBar> progressBars = new ArrayList<>();
+
+    private void drawNavigation(ArrayList<Integer> nodesIds)
+    {
+        if (nodesIds != null)
+        {
+            progressBars.clear();
+            for (int i = 0; i < nodesIds.size() - 1; i++)
+            {
+
+                for (int j = 0; j < layoutForStreets.getChildCount(); j++)
+                {
+                    if (layoutForStreets.getChildAt(j) instanceof RoundCornerProgressBar)
+                    {
+                        Long[] tag = (Long[]) layoutForStreets.getChildAt(j).getTag();
+                        long firstId = tag[0];
+                        long second = tag[1];
+                        if (nodesIds.get(i) == firstId && nodesIds.get(i + 1) == second)
+                        {
+                            ((RoundCornerProgressBar) layoutForStreets.getChildAt(j)).setProgressBackgroundColor(Color.RED);
+                            progressBars.add((RoundCornerProgressBar) layoutForStreets.getChildAt(j));
+//                            layoutForStreets.getChildAt(j).bringToFront();
+                            break;
+                        }
+                    }
+                }
+            }
+            if (progressBars.size() > 0)
+            {
+                AnimatorSet as = new AnimatorSet();
+                List<Animator> animators = new ArrayList<>();
+                for (int i = 0; i < progressBars.size(); i++)
+                {
+                    ValueAnimator animator1 = ValueAnimator.ofInt(0, 100);
+                    final int c = i;
+                    animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+                    {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation)
+                        {
+                            progressBars.get(c).setProgress((Integer) animation.getAnimatedValue());
+                        }
+                    });
+                    animator1.setDuration(2000);
+                    animators.add(animator1);
+                }
+                as.playSequentially(animators);
+                as.start();
+            }
+        }
+
     }
 
     View.OnClickListener onProgressBarClick = new OnClickListener()
@@ -193,7 +260,13 @@ public class DrawableView extends RelativeLayout
         @Override
         public void onClick(View v)
         {
-
+            ArrayList<Integer> nodesIds = new ArrayList<>();
+            nodesIds.add(25);
+            nodesIds.add(26);
+            nodesIds.add(27);
+            nodesIds.add(41);
+            nodesIds.add(29);
+            drawNavigation(nodesIds);
         }
     };
     ImageView currentCarImageView;
