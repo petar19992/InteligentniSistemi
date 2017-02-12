@@ -31,12 +31,14 @@ import com.example.petar.inteligentnisistemi.models.PathObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.R.attr.tag;
 import static com.example.petar.inteligentnisistemi.R.drawable.roundabout;
+import static junit.runner.Version.id;
 
 /**
  * Created by petar on 9.10.16..
@@ -44,6 +46,20 @@ import static com.example.petar.inteligentnisistemi.R.drawable.roundabout;
 
 public class DrawableView extends RelativeLayout
 {
+    public void setListener(OnMapChangeListener listener)
+    {
+        this.listener = listener;
+    }
+
+    OnMapChangeListener listener;
+
+    public interface OnMapChangeListener
+    {
+        void driveStart();
+
+        void driveEnd();
+    }
+
     Paint yellowPaint;
     Paint redPaint;
 
@@ -128,6 +144,7 @@ public class DrawableView extends RelativeLayout
     RelativeLayout.LayoutParams nodeParams;
 
     int defaultProgressColor;
+
     public void drawMap()
     {
         layoutForStreets.removeAllViews();
@@ -158,7 +175,7 @@ public class DrawableView extends RelativeLayout
                     progressBar.setX(startX);
                     progressBar.setY(startY);
                     progressBar.setMax(100);
-                    defaultProgressColor=progressBar.getProgressBackgroundColor();
+                    defaultProgressColor = progressBar.getProgressBackgroundColor();
 //                    progressBar.setProgress(50);
                     progressBar.setProgressColor(Color.parseColor("#58858e"));
                     progressBar.setRotation((float) calcRotationAngleInDegrees(startX, startY, endX, endY) - 90);
@@ -234,21 +251,20 @@ public class DrawableView extends RelativeLayout
             {
                 AnimatorSet as = new AnimatorSet();
                 List<Animator> animators = new ArrayList<>();
-                for (int i = 0; i < progressBars.size(); i++)
+
+                ValueAnimator animator1 = ValueAnimator.ofInt(0, 100);
+                animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
                 {
-                    ValueAnimator animator1 = ValueAnimator.ofInt(0, 100);
-                    final int c = i;
-                    animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation)
                     {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation)
-                        {
-                            progressBars.get(c).setProgress((Integer) animation.getAnimatedValue());
-                        }
-                    });
-                    animator1.setDuration(2000);
-                    animators.add(animator1);
-                }
+                        progressBars.get(0).setProgress((Integer) animation.getAnimatedValue());
+                    }
+                });
+                animator1.setDuration(2000);
+                animator1.addListener(animatorListener);
+                animators.add(animator1);
+
                 as.playSequentially(animators);
                 as.start();
             }
@@ -256,6 +272,95 @@ public class DrawableView extends RelativeLayout
 
     }
 
+    Animator.AnimatorListener animatorListener = new Animator.AnimatorListener()
+    {
+        @Override
+        public void onAnimationStart(Animator animation)
+        {
+            listener.driveStart();
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation)
+        {
+            if (nodesIds.size() > 2)
+            {
+                Connections.getInstance().updateCarPosition(Constants.getInstance().myCar, Constants.getInstance().findNodeById(nodesIds.get(0)), Constants.getInstance().findNodeById(nodesIds.get(1)), new Callback<ResponseBody>()
+                {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response)
+                    {
+                        if (response.isSuccessful())
+                        {
+//                            if (response.body().toString().contains("successfully"))
+                            {
+                                listener.driveEnd();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t)
+                    {
+
+                    }
+                });
+
+            }
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation)
+        {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation)
+        {
+
+        }
+    };
+
+    public Node destinationNode;
+
+    public void startNavigation()
+    {
+        if (destinationNode == null)
+        {
+            return;
+        }
+        Connections.getInstance().startNavigation(Constants.getInstance().myCar, destinationNode, new Callback<PathObject>()
+        {
+            @Override
+            public void onResponse(Call<PathObject> call, Response<PathObject> response)
+            {
+                if (response.isSuccessful())
+                {
+                    PathObject pathObject = response.body();
+                    if (pathObject != null)
+                    {
+                        clearProgressBarsbackground();
+                        nodesIds.clear();
+                        for (Node node : pathObject.getNodes())
+                        {
+                            nodesIds.add((int) node.getId());
+                        }
+                        drawNavigation(nodesIds);
+                    }
+                }
+                Log.i("Sda", "Gotovo");
+            }
+
+            @Override
+            public void onFailure(Call<PathObject> call, Throwable t)
+            {
+                Log.i("Sda", "Gotovo");
+            }
+        });
+    }
+
+    ArrayList<Integer> nodesIds = new ArrayList<>();
     View.OnClickListener onProgressBarClick = new OnClickListener()
     {
         @Override
@@ -263,34 +368,9 @@ public class DrawableView extends RelativeLayout
         {
             RoundCornerProgressBar progressBar = (RoundCornerProgressBar) v;
             Long[] tag = (Long[]) progressBar.getTag();
-            Connections.getInstance().startNavigation(Constants.getInstance().myCar, Constants.getInstance().findNodeById(tag[0]), new Callback<PathObject>()
-            {
-                @Override
-                public void onResponse(Call<PathObject> call, Response<PathObject> response)
-                {
-                    if (response.isSuccessful())
-                    {
-                        PathObject pathObject = response.body();
-                        if (pathObject != null)
-                        {
-                            clearProgressBarsbackground();
-                            ArrayList<Integer> nodesIds = new ArrayList<>();
-                            for(Node node:pathObject.getNodes())
-                            {
-                                nodesIds.add((int) node.getId());
-                            }
-                            drawNavigation(nodesIds);
-                        }
-                    }
-                    Log.i("Sda", "Gotovo");
-                }
+            destinationNode = Constants.getInstance().findNodeById(tag[0]);
+            startNavigation();
 
-                @Override
-                public void onFailure(Call<PathObject> call, Throwable t)
-                {
-                    Log.i("Sda", "Gotovo");
-                }
-            });
             double theta = 0;
         }
     };
@@ -302,6 +382,7 @@ public class DrawableView extends RelativeLayout
             ((RoundCornerProgressBar) layoutForStreets.getChildAt(j)).setProgressBackgroundColor(defaultProgressColor);
         }
     }
+
     View.OnClickListener onIntersectionClick = new OnClickListener()
     {
         @Override

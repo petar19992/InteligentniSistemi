@@ -37,8 +37,6 @@ public interface Api
     Call<Response<Void>> addNewCar(@Body RequestBody params);
     @POST("car/position")
     Call<Response<Void>> findCarByNode(@Body RequestBody params); //ToDo
-    @POST("car/updateCarPosition")
-    Call<Response<Void>> updateCarPosition(@Body RequestBody params);
     @POST("car/connectedNodes")
     Call<ArrayList<Node>> getNodeByCnnectedNodes(@Body RequestBody params);
     @POST("node/connectedNodesId")
@@ -49,4 +47,6 @@ public interface Api
     Call<ResponseBody> login(@Body RequestBody params);
     @POST("carSys/startNavigation")
     Call<com.example.petar.inteligentnisistemi.models.PathObject> startNavigation(@Body RequestBody params);
+    @POST("car/updateCarPosition")
+    Call<ResponseBody> updateCarPosition(@Body RequestBody params);
 }

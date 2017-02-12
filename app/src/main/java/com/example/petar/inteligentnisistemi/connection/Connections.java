@@ -150,6 +150,36 @@ public class Connections
         response.enqueue(callback);
     }
 
+    public void updateCarPosition(Car car,Node node1, Node node2, Callback<ResponseBody> callback)
+    {
+
+        String json="{\n" +
+                "\t\"regBr\": \""+car.getRegBr()+"\",\n" +
+                "\t\"positionNode1\": {\n" +
+                "\t\t\"name\":\""+node1.getName()+"\",\n" +
+                "\t\t\"nodeType\": {\n" +
+                "\t\t\t\"name\":\""+node1.getNodeType().getName()+"\"\n" +
+                "\t\t}\n" +
+                "\t},\n" +
+                "\t\"positionNode2\": {\n" +
+                "\t\t\"name\":\""+node2.getName()+"\",\n" +
+                "\t\t\"nodeType\": {\n" +
+                "\t\t\t\"name\":\""+node2.getNodeType().getName()+"\"\n" +
+                "\t\t}\n" +
+                "\t},\n" +
+                "\t\"lastNode\": {\n" +
+                "\t\t\"name\":\""+node1.getName()+"\",\n" +
+                "\t\t\"nodeType\": {\n" +
+                "\t\t\t\"name\":\""+node1.getNodeType().getName()+"\"\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "\t\n" +
+                "}";
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        Call<ResponseBody> response = api.updateCarPosition(body);
+        response.enqueue(callback);
+    }
+
     public void startNavigation(Car car,Node cilj, Callback<PathObject> callback)
     {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), car.getStartForNavigation(cilj));

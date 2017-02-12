@@ -3,6 +3,7 @@ package com.example.petar.inteligentnisistemi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.provider.Contacts;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,7 +104,15 @@ public class LoginActivity extends Activity implements View.OnClickListener
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t)
                     {
-                        Log.i("Sda", "Gotovo");
+                        progressDialog.dismiss();
+                        if (!UIApplication.isNetworkAvailable(getApplicationContext()))
+                        {
+                            Toast.makeText(LoginActivity.this, "No Internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(LoginActivity.this, "something went wrong", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.petar.inteligentnisistemi.connection.Connections;
 import com.example.petar.inteligentnisistemi.customComponents.DrawableView;
@@ -32,16 +33,17 @@ import retrofit2.Response;
  * Created by PETAR on 2/6/2017.
  */
 
-public class NavigationFragment extends Fragment
+public class NavigationFragment extends Fragment implements DrawableView.OnMapChangeListener
 {
     DrawableView drawableView;
-
+    Button next;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.activity_main, container, false);
         drawableView = (DrawableView) rootView.findViewById(R.id.drawableView);
+        drawableView.setListener(this);
         drawableView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -133,7 +135,31 @@ public class NavigationFragment extends Fragment
                 Log.i("Sda", "Gotovo");
             }
         });
+
+        next= (Button) rootView.findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                drawableView.startNavigation();
+            }
+        });
         return rootView;
+    }
+
+    @Override
+    public void driveStart()
+    {
+        next.setAlpha(0.5f);
+        next.setClickable(false);
+    }
+
+    @Override
+    public void driveEnd()
+    {
+        next.setClickable(true);
+        next.setAlpha(1f);
     }
 
     class RequestTask extends AsyncTask<String, String, String>
